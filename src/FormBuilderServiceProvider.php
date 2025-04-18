@@ -2,9 +2,9 @@
 
 namespace MyListerHub\FormBuilder;
 
+use MyListerHub\FormBuilder\Commands\FormBuilderCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use MyListerHub\FormBuilder\Commands\FormBuilderCommand;
 
 class FormBuilderServiceProvider extends PackageServiceProvider
 {
