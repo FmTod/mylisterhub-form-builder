@@ -1,0 +1,27 @@
+{
+    "name": "@mylisterhub/form-builder",
+    "module": "resources/js/main.ts",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "devDependencies": {
+        "@antfu/eslint-config": "^4.12.0",
+        "@types/bun": "latest",
+        "@vitejs/plugin-vue2": "^2.3.3",
+        "@vue/tsconfig": "^0.7.0",
+        "vite": "^6.3.2",
+        "vue-tsc": "^2.2.8"
+    },
+    "peerDependencies": {
+        "typescript": "^5"
+    },
+    "dependencies": {
+        "@fmtod2/mdb4-vue": "git@github.com:FmTod2/mdb4-vue-pro",
+        "@inertiajs/vue2": "^1.3.0",
+        "@vueform/vueform": "^1.12.6",
+        "vue": "^2.7"
+    }
+}

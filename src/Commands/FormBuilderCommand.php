@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace MyListerHub\FormBuilder\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class FormBuilderCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'mylisterhub-form-builder';
 
     public $description = 'My command';
 
