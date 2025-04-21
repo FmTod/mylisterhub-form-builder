@@ -19,6 +19,8 @@ class FormBuilderServiceProvider extends PackageServiceProvider
             ->name('form-builder')
             ->hasConfigFile()
             ->hasViews()
+            ->hasAssets()
+            ->hasRoutes(['web', 'api'])
             ->hasMigration('create_form_builder_table')
             ->hasCommand(FormBuilderCommand::class);
     }

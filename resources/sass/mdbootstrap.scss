@@ -1,0 +1,42 @@
+// MDBootstrap PRO
+$image-path: 'mdb4-jquery/img';
+
+$btn-margin-basic: 0;
+
+$btn-padding-y-small: 0.25rem;
+$btn-padding-x-small: 0.6rem;
+$btn-font-size-small: 0.5rem;
+
+$btn-padding-y-basic: 0.5rem;
+$btn-padding-x-basic: 1.3rem;
+$btn-font-size-basic: 0.64rem;
+
+$btn-padding-y-large: 0.84rem;
+$btn-padding-x-large: 2.14rem;
+$btn-font-size-large: 0.81rem;
+
+@import 'bootstrap/scss/bootstrap';
+@import 'mdb4-jquery/scss/mdb-pro';
+
+// Import MDBootstrap free addons
+@import 'mdb4-jquery/scss/addons/datatables';
+@import 'mdb4-jquery/scss/addons/datatables2';
+@import 'mdb4-jquery/scss/addons/datatables-select';
+@import 'mdb4-jquery/scss/addons/datatables-select2';
+@import 'mdb4-jquery/scss/addons/directives';
+@import 'mdb4-jquery/scss/addons/flag';
+@import 'mdb4-jquery/scss/addons/hierarchical-display';
+@import 'mdb4-jquery/scss/addons/rating';
+
+// Import MDBootstrap pro addons
+@import 'mdb4-jquery/scss/addons-pro/charts/module';
+@import 'mdb4-jquery/scss/addons-pro/cards-extended';
+@import 'mdb4-jquery/scss/addons-pro/chat';
+@import 'mdb4-jquery/scss/addons-pro/multi-range';
+@import 'mdb4-jquery/scss/addons-pro/steppers';
+@import 'mdb4-jquery/scss/addons-pro/timeline';
+@import 'mdb4-jquery/scss/addons-pro/vector-map';
+@import 'perfect-scrollbar/css/perfect-scrollbar.css';
+
+// Import MDBoostrap Vue
+@import "mdb4-vue/lib/mdbvue.css";

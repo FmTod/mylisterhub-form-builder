@@ -1,27 +1,38 @@
 {
     "name": "@mylisterhub/form-builder",
-    "module": "resources/js/main.ts",
     "type": "module",
+    "module": "resources/js/main.ts",
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "lint": "eslint",
+        "lint:fix": "eslint --fix"
+    },
+    "peerDependencies": {
+        "typescript": "^5"
+    },
+    "dependencies": {
+        "@inertiajs/vue2": "^1.3.0",
+        "@vueform/vueform": "^1.12.6",
+        "@vueuse/core": "^11",
+        "iconify-icon": "^2.3.0",
+        "mdb4-jquery": "git@github.com:FmTod/mdb4-jquery",
+        "mdb4-vue": "git@github.com:FmTod2/mdb4-vue-pro",
+        "vue": "^2.7"
     },
     "devDependencies": {
         "@antfu/eslint-config": "^4.12.0",
         "@types/bun": "latest",
         "@vitejs/plugin-vue2": "^2.3.3",
         "@vue/tsconfig": "^0.7.0",
+        "ajv": "^8.17.1",
+        "bootstrap": "^4",
+        "eslint": "^9.25.0",
+        "laravel-vite-plugin": "^1.2.0",
         "vite": "^6.3.2",
+        "vite-plugin-checker": "^0.9.1",
+        "vite-plugin-dts": "^4.5.3",
         "vue-tsc": "^2.2.8"
-    },
-    "peerDependencies": {
-        "typescript": "^5"
-    },
-    "dependencies": {
-        "@fmtod2/mdb4-vue": "git@github.com:FmTod2/mdb4-vue-pro",
-        "@inertiajs/vue2": "^1.3.0",
-        "@vueform/vueform": "^1.12.6",
-        "vue": "^2.7"
     }
 }

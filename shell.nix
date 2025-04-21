@@ -12,26 +12,14 @@
       ]);
   };
   composer = phpWithExtensions.packages.composer;
-  sailArtisan = pkgs.writeScriptBin "artisan" ''
-    if [ -f ./vendor/bin/sail ]; then
-        ./vendor/bin/sail artisan "$@"
-    else
-        ${phpWithExtensions}/bin/php artisan "$@"
-    fi
+  testbench = pkgs.writeScriptBin "testbench" ''
+    ${phpWithExtensions}/bin/php vendor/bin/testbench "$@"
   '';
-  sailComposer = pkgs.writeScriptBin "composer" ''
-    if [ -f ./vendor/bin/sail ]; then
-        ./vendor/bin/sail composer "$@"
-    else
-        ${composer}/bin/composer "$@"
-    fi
+  workbench = pkgs.writeScriptBin "testbench" ''
+    ${phpWithExtensions}/bin/php vendor/bin/workbench "$@"
   '';
-  sailTinker = pkgs.writeScriptBin "tinker" ''
-    if [ -f ./vendor/bin/sail ]; then
-        ./vendor/bin/sail tinker
-    else
-        ${phpWithExtensions}/bin/php artisan tinker
-    fi
+  canvas = pkgs.writeScriptBin "canvas" ''
+    ${phpWithExtensions}/bin/php vendor/bin/canvas "$@"
   '';
 in
   pkgs.mkShell {
@@ -42,9 +30,10 @@ in
     nativeBuildInputs = with pkgs.buildPackages; [
       # PHP
       phpWithExtensions
-      sailComposer
-      sailArtisan
-      sailTinker
+      composer
+      testbench
+      workbench
+      canvas
 
       # Node
       nodejs_20

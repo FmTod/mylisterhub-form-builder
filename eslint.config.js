@@ -48,7 +48,6 @@ export default antfu({
             ],
             internalPattern: [
                 '^@/',
-                '^~/',
             ],
             newlinesBetween: 'never',
             type: 'natural',
