@@ -75,6 +75,12 @@
                     </div>
                     <div v-else class="form-builder nested-sortable d-flex flex-row flex-wrap flex-grow-1 align-content-start justify-content-start px-3 overflow-y-auto">
                         <Vueform>
+                            <BuilderElement
+                                v-for="(element, index) in formElements"
+                                :key="index"
+                                :element="element"
+                                @select="selectedElement = $event"
+                            />
                         </Vueform>
                     </div>
                 </div>
@@ -86,7 +92,7 @@
                         Form Configuration
                     </h6>
 
-                    <vueform v-if="selectedElement?.configSchema" :schema="selectedElement.configSchema" />
+                    <Vueform v-if="selectedElement?.configSchema" :schema="selectedElement.configSchema" />
                 </div>
             </div>
         </div>
@@ -94,16 +100,17 @@
 </template>
 
 <script setup lang="ts">
-import type { BuilderElement, FormElement, FormElementBlueprint } from '@/types';
+import type { BuilderElement as FormBuilderElement, FormElement, FormElementBlueprint } from '@/types';
 import { useDebouncedRefHistory, useToggle } from '@vueuse/core';
 import MdbBtn from 'mdb4-vue/lib/components/mdbBtn';
 import MdbBtnGroup from 'mdb4-vue/lib/components/mdbBtnGroup';
 import { ref } from 'vue';
+import BuilderElement from '@/components/BuilderElement.vue';
 
 const [preview, previewToggle] = useToggle(false);
 const loading = ref<boolean>(false);
 
-const builderElements = ref<BuilderElement[]>([
+const builderElements = ref<FormBuilderElement[]>([
     {
         label: 'Text',
         icon: 'fa-solid:font',
@@ -115,9 +122,8 @@ const builderElements = ref<BuilderElement[]>([
             },
             configSchema: {
                 label: {
-                    type: 'string',
+                    type: 'text',
                     label: 'Label',
-                    default: 'Text',
                 },
             },
         },
