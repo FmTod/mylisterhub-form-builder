@@ -44,27 +44,29 @@
                     </div>
                 </div>
                 <div class="mx-auto h-100 d-flex flex-column overflow-hidden" style="max-width: 1200px;">
-                    <div class="actions row bg-white flex-grow-0 px-3">
-                        <div class="col my-2">
+                    <div class="actions form-row bg-white flex-grow-0 px-3">
+                        <div class="col-auto my-2">
                             <MdbBtnGroup>
-                                <MdbBtn class="my-0 ml-0" @click="previewToggle()">
+                                <MdbBtn @click="previewToggle()">
                                     {{ preview ? 'Editor' : 'Preview' }}
                                 </MdbBtn>
                             </MdbBtnGroup>
                         </div>
-                        <div class="col-auto my-2">
-                            <MdbBtn
-                                v-if="!preview && history.length > 0"
-                                class="m-0"
-                                @click="undo()"
-                            >
+                        <div v-if="!preview && !!selectedElement" class="col my-2">
+                            <MdbBtnGroup>
+                                <MdbBtn @click="selectedElement = undefined">
+                                    Clear Selection
+                                </MdbBtn>
+                            </MdbBtnGroup>
+                        </div>
+                        <div class="col" />
+                        <div v-if="!preview && history.length > 0" class="col-auto my-2">
+                            <MdbBtn @click="undo()">
                                 Undo
                             </MdbBtn>
-                            <MdbBtn
-                                v-if="!preview && history.length > 0"
-                                class="m-0"
-                                @click="redo()"
-                            >
+                        </div>
+                        <div v-if="!preview && history.length > 0" class="col-auto my-2">
+                            <MdbBtn @click="redo()">
                                 Redo
                             </MdbBtn>
                         </div>
@@ -74,12 +76,14 @@
                         <!-- <Vueform v-if="!preview" :schema="schema" /> -->
                     </div>
                     <div v-else class="form-builder nested-sortable d-flex flex-row flex-wrap flex-grow-1 align-content-start justify-content-start px-3 overflow-y-auto">
-                        <Vueform>
+                        <Vueform class="w-100">
                             <BuilderElement
                                 v-for="(element, index) in formElements"
                                 :key="index"
                                 :element="element"
+                                :selected="selectedElement?.props.name === element.props.name"
                                 @select="selectedElement = $event"
+                                @remove="removeElement(index)"
                             />
                         </Vueform>
                     </div>
@@ -92,7 +96,12 @@
                         Form Configuration
                     </h6>
 
-                    <Vueform v-if="selectedElement?.configSchema" :schema="selectedElement.configSchema" />
+                    <Vueform
+                        v-if="selectedElement && selectedElement.configSchema"
+                        v-model="selectedElement.props"
+                        :schema="selectedElement.configSchema"
+                        sync
+                    />
                 </div>
             </div>
         </div>
@@ -102,10 +111,13 @@
 <script setup lang="ts">
 import type { BuilderElement as FormBuilderElement, FormElement, FormElementBlueprint } from '@/types';
 import { useDebouncedRefHistory, useToggle } from '@vueuse/core';
+import { defaultsDeep } from 'lodash-es';
 import MdbBtn from 'mdb4-vue/lib/components/mdbBtn';
 import MdbBtnGroup from 'mdb4-vue/lib/components/mdbBtnGroup';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import BuilderElement from '@/components/BuilderElement.vue';
+import { useBaseConfig, useSelectConfig } from '@/composables/configs.ts';
+import { useNewSlug } from '@/composables/utils.ts';
 
 const [preview, previewToggle] = useToggle(false);
 const loading = ref<boolean>(false);
@@ -119,13 +131,15 @@ const builderElements = ref<FormBuilderElement[]>([
             props: {
                 type: 'text',
                 label: 'Text',
-            },
-            configSchema: {
-                label: {
-                    type: 'text',
-                    label: 'Label',
+                inputType: 'text',
+                size: 'md',
+                columns: {
+                    container: 12,
+                    wrapper: 12,
+                    label: 12,
                 },
             },
+            configSchema: useBaseConfig(),
         },
     },
     {
@@ -137,6 +151,7 @@ const builderElements = ref<FormBuilderElement[]>([
                 type: 'textarea',
                 label: 'Text Area',
             },
+            configSchema: useBaseConfig(),
         },
     },
     {
@@ -152,35 +167,58 @@ const builderElements = ref<FormBuilderElement[]>([
                     { value: 'option2', label: 'Option 2' },
                 ],
             },
+            configSchema: useSelectConfig(),
+        },
+    },
+    {
+        label: 'Group',
+        icon: 'fa-solid:folder-plus',
+        element: {
+            component: 'ObjectElement',
+            props: {
+                label: 'Group',
+            },
+            configSchema: useBaseConfig(),
+        },
+    },
+    {
+        label: 'List',
+        icon: 'fa-solid:th-list',
+        element: {
+            component: 'ListElement',
+            props: {
+                label: 'List',
+                element: {
+                    type: 'object',
+                    schema: {},
+                },
+            },
+            configSchema: useBaseConfig(),
         },
     },
 ]);
 
-const formElements = ref<FormElement[]>([]);
 const selectedElement = ref<FormElement>();
-
-function newSlug(initial: string) {
-    if (!formElements.value.some(({ props }) => props.name === initial)) {
-        return initial;
-    }
-
-    let i = 1;
-
-    while (formElements.value.some(({ props }) => props.name === `${initial}${i}`)) {
-        i++;
-    }
-
-    return `${initial}${i}`;
-}
+const formElements = ref<FormElement[]>([]);
+const formElementNames = computed(() => formElements.value.map(({ props }) => props.name));
 
 function addElement(element: FormElementBlueprint, name?: string) {
-    formElements.value.push({
-        ...element,
-        props: {
-            ...element.props,
-            name: newSlug(name ?? element.props.label),
-        },
+    const slug = useNewSlug(name ?? element.props.label, formElementNames.value);
+    const formElement = defaultsDeep({}, element, {
+        props: { name: slug },
     });
+
+    console.log('Adding Element', slug, formElement);
+
+    formElements.value.push(formElement);
+}
+
+function removeElement(element: FormElement | number) {
+    const index = Number.isInteger(element) ? element : formElements.value.indexOf(element);
+
+    if (index > -1) {
+        formElements.value.splice(index, 1);
+    }
 }
 
 const { history, undo, redo } = useDebouncedRefHistory(formElements, { deep: true, debounce: 1000 });

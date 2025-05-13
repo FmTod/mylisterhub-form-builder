@@ -17,6 +17,7 @@
         "@vueform/vueform": "^1.12.6",
         "@vueuse/core": "^11",
         "iconify-icon": "^2.3.0",
+        "lodash-es": "^4.17.21",
         "mdb4-jquery": "git@github.com:FmTod/mdb4-jquery",
         "mdb4-vue": "git@github.com:FmTod2/mdb4-vue-pro",
         "vue": "^2.7"
@@ -24,6 +25,7 @@
     "devDependencies": {
         "@antfu/eslint-config": "^4.12.0",
         "@types/bun": "latest",
+        "@types/lodash-es": "^4.17.12",
         "@vitejs/plugin-vue2": "^2.3.3",
         "@vue/tsconfig": "^0.7.0",
         "ajv": "^8.17.1",

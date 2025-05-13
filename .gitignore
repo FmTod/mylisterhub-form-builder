@@ -13,6 +13,7 @@ yarn-error.log
 .phpunit.cache
 .phpunit.result.cache
 /build
+/resources/dist/hot
 
 # IDE Helper
 _ide_helper.php

@@ -32,10 +32,10 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => ({
         outDir: './resources/dist',
         cssCodeSplit: true,
         lib: {
-            name: 'FormBuilder',
             entry: 'resources/js/main.ts',
             formats: ['es', 'cjs', 'umd'],
         },
+        sourcemap: command === 'serve',
     },
     server: {
         watch: {
