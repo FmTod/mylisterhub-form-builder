@@ -1,0 +1,27 @@
+preset: package
+
+namespace: MyListerHub\FormBuilder
+user-auth-model: App\Models\User
+
+paths:
+  src: src
+  resource: resources
+
+factory:
+  path: database/factories
+
+migration:
+  path: database/migrations
+  prefix: ''
+
+console:
+  namespace: MyListerHub\FormBuilder\Console
+
+model:
+  namespace: MyListerHub\FormBuilder\Models
+
+provider:
+  namespace: MyListerHub\FormBuilder\Providers
+
+testing:
+  namespace: MyListerHub\FormBuilder\Tests
